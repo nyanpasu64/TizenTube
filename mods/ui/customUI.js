@@ -186,5 +186,14 @@ function applyPatches() {
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
     applyPatches();
 } else {
-    window.addEventListener('DOMContentLoaded', applyPatches);
+    let hasRun = false;
+    const applyPatchesOnce = () => {
+        if (hasRun) return;
+        hasRun = true;
+        return applyPatches();
+    };
+
+    log(`window.addEventListener('...', applyPatches)`);
+    window.addEventListener('DOMContentLoaded', applyPatchesOnce);
+    window.addEventListener('load', applyPatchesOnce);
 }
