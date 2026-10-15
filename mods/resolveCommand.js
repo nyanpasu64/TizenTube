@@ -84,6 +84,7 @@ export function patchResolveCommand() {
                     for (const item of items) {
                         const iconType = item?.compactLinkRenderer?.icon?.iconType;
                         if (iconType === 'SLOW_MOTION_VIDEO' || iconType === 'SPEEDOMETER') {
+                            showToast('Patch the playback settings popup to use TizenTube speed settings', 'TT_SPEED_SETTINGS_SHOW');
                             item.compactLinkRenderer.subtitle && (item.compactLinkRenderer.subtitle.simpleText = t('player.withTizenTube'));
                             item.compactLinkRenderer.serviceEndpoint = {
                                 clickTrackingParams: "null",
