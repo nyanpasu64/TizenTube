@@ -64,7 +64,8 @@
                     "videoPreviews": "Enable Video Previews",
                     "ttWelcomeMsg": "Show TT Welcome Message",
                     "guestSignInReminder": "Show Guest Sign In Reminder",
-                    "reloadHomeOnStartup": "Reload Home on Startup"
+                    "reloadHomeOnStartup": "Reload Home on Startup",
+                    "enableLogConsole": "Enable On-Screen Log Console"
                 }
             },
             "subtitles": {
