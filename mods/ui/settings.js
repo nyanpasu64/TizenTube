@@ -88,6 +88,10 @@ export default function modernUI(update, parameters) {
             })
         },
         {
+            name: t('settings.options.misc.options.enableLogConsole'),
+            value: 'enableLogConsole'
+        },
+        {
             name: t('settings.options.adBlock'),
             icon: 'DOLLAR_SIGN',
             value: 'enableAdBlock'
@@ -453,7 +457,7 @@ export default function modernUI(update, parameters) {
                     },
                     options: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((seconds) => {
                         return {
-                            name: t(seconds === 1 ? 'settings.options.time.second' : 'settings.options.time.seconds', { count: seconds }),                            
+                            name: t(seconds === 1 ? 'settings.options.time.second' : 'settings.options.time.seconds', { count: seconds }),
                             key: 'autoFrameRatePauseVideoFor',
                             value: seconds * 1000
                         }
