@@ -5,6 +5,7 @@ import { t } from 'i18next';
 import { configRead } from "../config.js";
 import { onLoad } from "../utils/onLoad.js";
 import languages from "../translations/language-names.js";
+import { log } from '../ui/logConsole.js';
 
 const LANGUAGE_CODES = [
     "af", "sq", "am", "ar", "hy", "as", "az", "eu", "be", "bn", "bs", "bg",
@@ -193,7 +194,10 @@ function createSectionTitle(title) {
 
 // Main function to patch the subtitle menu
 function patchSubtitleMenu() {
-    if (isPatched) return;
+    if (isPatched) {
+        log("patchSubtitleMenu already patched");
+        return;
+    }
 
     const player = document.querySelector('.html5-video-player');
     if (!player) return setTimeout(patchSubtitleMenu, 250);
