@@ -226,7 +226,7 @@ window.setInterval(() => {
         // sized.style.flexDirection = "column";
 
         // Is the QR code invalid? Replace with purple image.
-        imag.style.backgroundImage = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAABGdBTUEAALGPC/xhBQAAABBJREFUCFtj+M/wH4hAEIgAN9YH+erNEqEAAAAASUVORK5CYII=")';
+        imag.style.backgroundImage = 'url("data:image/gif;base64,R0lGODdhAgACAIABAP8A/////ywAAAAAAgACAAACAoRRADs=")';
     }
     oldQr = qr;
 
