@@ -73,6 +73,11 @@ function createConsole() {
     // I'm sure there's a formula to fix it (exclude bottom padding and possibly
     // top from clientHeight), but I cannot be assed.
 
+    // line wrap handling
+    container.style.wordBreak = "break-all";  // to avoid cutoff text
+    container.style.textIndent = "4ch";
+    container.style.paddingLeft = "-4ch";
+
     container.style.overflow = 'scroll';
     container.style.pointerEvents = 'none';
 
