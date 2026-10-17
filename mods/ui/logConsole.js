@@ -62,13 +62,13 @@ function createConsole() {
     container.style.position = 'absolute';
     container.style.top = '2%';
     container.style.left = '2%';
-    container.style.width = '50%';
-    container.style.height = '40%';
+    container.style.width = '95%';
+    container.style.height = '95%';
     container.style.zIndex = '9999';
     // container.style.background = 'rgba(0, 0, 0, 0.5)';
     container.style.color = '#ffffff';
     container.style.fontFamily = 'monospace';
-    container.style.fontSize = '1rem';
+    container.style.fontSize = '10px';
     // Don't set padding (= 1em), it breaks scrollToBottom().
     // I'm sure there's a formula to fix it (exclude bottom padding and possibly
     // top from clientHeight), but I cannot be assed.

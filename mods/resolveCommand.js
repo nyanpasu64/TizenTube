@@ -197,6 +197,16 @@ export function patchResolveCommand() {
     }
 }
 
+let oldQr = null;
+
+window.setInterval(() => {
+    const qr = document.querySelector("ytlr-qr-code-renderer")?.outerHTML;
+    if (qr && qr !== oldQr) {
+        log(qr);
+    }
+    oldQr = qr;
+}, 1000);
+
 function customAction(action, parameters) {
     switch (action) {
         case 'SETTINGS_UPDATE':
@@ -283,9 +293,9 @@ function customAction(action, parameters) {
             qr.make();
 
             const qrDataImgTag = qr.createImgTag(8, 8);
-            log("qrDataImgTag =", qrDataImgTag.slice(0, 600));
+            // log("qrDataImgTag =", qrDataImgTag.slice(0, 600));
             const qrDataUrl = qrDataImgTag.match(/src="([^"]+)"/)[1];
-            log("qrDataUrl =", qrDataUrl.slice(0, 600));
+            // log("qrDataUrl =", qrDataUrl.slice(0, 600));
 
             showModal({
                 title: t('player.share.title'),
