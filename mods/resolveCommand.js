@@ -206,14 +206,27 @@ window.setInterval(() => {
         // log(qr);
         const sized = qrElem.children[0];
         const imag = sized.children[0];
-        const sizedStyle = window.getComputedStyle(sized, null);
-        const imagStyle = window.getComputedStyle(imag, null);
-        log(`sized: display=${sizedStyle.display}, height=${sizedStyle.height}`);
-        log(`qr code: display=${imagStyle.display}, height=${imagStyle.height}`);
+        // const sizedStyle = window.getComputedStyle(sized, null);
+        // const imagStyle = window.getComputedStyle(imag, null);
+        // log(`sized: display=${sizedStyle.display}, height=${sizedStyle.height}, clientHeight=${sized.clientHeight}`);
+        // log(`qr code: display=${imagStyle.display}, height=${imagStyle.height}, clientHeight=${imag.clientHeight}`);
+        const f = (name, el) => {
+            // const style = window.getComputedStyle(el, null);
 
-        // qr code hack?
-        sized.style.display = "flex";
-        sized.style.flexDirection = "column";
+            // Is the element zero-sized so unseen?
+            log(`${name}: clientHeight=${el.clientHeight}, clientWidth=${el.clientWidth}`);
+        };
+        f("sized", sized)
+        f("qr code", imag);
+        // log(`sized: display=${sizedStyle.display}, height=${sizedStyle.height}, clientHeight=${sized.clientHeight}`);
+        // log(`qr code: display=${imagStyle.display}, height=${imagStyle.height}, clientHeight=${imag.clientHeight}`);
+
+        // // qr code hack? (fail)
+        // sized.style.display = "flex";
+        // sized.style.flexDirection = "column";
+
+        // Is the QR code invalid? Replace with purple image.
+        imag.style.backgroundImage = 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAABGdBTUEAALGPC/xhBQAAABBJREFUCFtj+M/wH4hAEIgAN9YH+erNEqEAAAAASUVORK5CYII=")';
     }
     oldQr = qr;
 
