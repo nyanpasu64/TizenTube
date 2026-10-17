@@ -101,3 +101,24 @@ configChangeEmitter.addEventListener('configChange', (e) => {
 });
 
 if (configRead('enableLogConsole')) try { createConsole(); } catch (e) { showToast(e, e.message); }
+
+// Capture and log global errors.
+function errorText(error) {
+    var message;
+    if (!error) {
+        return "unknown error";
+    }
+    message = error.stack || error.message || String(error);
+    return String(message).slice(0, 600);
+}
+
+var previousOnError = window.onerror;
+window.onerror = function (message, source, line, column, error) {
+    log(
+        errorText(error) || String(message) + " at " + source + ":" + line
+    );
+    if (typeof previousOnError === "function") {
+        return previousOnError.apply(this, arguments);
+    }
+    return false;
+};
