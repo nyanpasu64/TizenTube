@@ -200,9 +200,13 @@ export function patchResolveCommand() {
 let oldQr = null;
 
 window.setInterval(() => {
-    const qr = document.querySelector("ytlr-qr-code-renderer")?.outerHTML;
+    const qrElem = document.querySelector("ytlr-qr-code-renderer");
+    const qr = qrElem?.outerHTML;
     if (qr && qr !== oldQr) {
-        log(qr);
+        // log(qr);
+        const imag = qrElem.children[0].children[0];
+        const style = window.getComputedStyle(imag, null);
+        log(`display=${style.display}, height=${style.height}`);
     }
     oldQr = qr;
 
