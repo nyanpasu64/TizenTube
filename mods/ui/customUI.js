@@ -2,6 +2,7 @@
 
 import { extractAssignedFunctions } from "../utils/ASTParser.js";
 import { configRead } from "../config.js";
+import { onLoad } from "../utils/onLoad.js";
 import { ButtonRenderer } from "./ytUI.js";
 import { t } from 'i18next';
 
@@ -132,7 +133,7 @@ function applyPatches() {
                 return shoppingFiltered;
             }
         }
-        
+
         if (!configRead('enableAIAskButton')) {
             const origEngagementActionButton = inst[engagementActionButton];
             inst[engagementActionButton] = function () {
@@ -183,17 +184,4 @@ function applyPatches() {
 }
 
 
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    applyPatches();
-} else {
-    let hasRun = false;
-    const applyPatchesOnce = () => {
-        if (hasRun) return;
-        hasRun = true;
-        return applyPatches();
-    };
-
-    log(`window.addEventListener('...', applyPatches)`);
-    window.addEventListener('DOMContentLoaded', applyPatchesOnce);
-    window.addEventListener('load', applyPatchesOnce);
-}
+onLoad(applyPatches);
