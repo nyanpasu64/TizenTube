@@ -204,9 +204,16 @@ window.setInterval(() => {
     const qr = qrElem?.outerHTML;
     if (qr && qr !== oldQr) {
         // log(qr);
-        const imag = qrElem.children[0].children[0];
-        const style = window.getComputedStyle(imag, null);
-        log(`display=${style.display}, height=${style.height}`);
+        const sized = qrElem.children[0];
+        const imag = sized.children[0];
+        const sizedStyle = window.getComputedStyle(sized, null);
+        const imagStyle = window.getComputedStyle(imag, null);
+        log(`sized: display=${sizedStyle.display}, height=${sizedStyle.height}`);
+        log(`qr code: display=${imagStyle.display}, height=${imagStyle.height}`);
+
+        // qr code hack?
+        sized.style.display = "flex";
+        sized.style.flexDirection = "column";
     }
     oldQr = qr;
 
