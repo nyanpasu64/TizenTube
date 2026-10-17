@@ -2,6 +2,7 @@ import { configWrite, configRead } from './config.js';
 import { enablePip } from './features/pictureInPicture.js';
 import modernUI, { optionShow } from './ui/settings.js';
 import { speedSettings } from './ui/speedUI.js';
+import { log } from './ui/logConsole.js'
 import { showToast, buttonItem, showModal, QrCodeRenderer, overlayPanelItemListRenderer, overlayMessageRenderer } from './ui/ytUI.js';
 import checkForUpdates from './features/updater.js';
 import { t } from 'i18next';
@@ -282,7 +283,9 @@ function customAction(action, parameters) {
             qr.make();
 
             const qrDataImgTag = qr.createImgTag(8, 8);
+            log("qrDataImgTag =", qrDataImgTag.slice(0, 600));
             const qrDataUrl = qrDataImgTag.match(/src="([^"]+)"/)[1];
+            log("qrDataUrl =", qrDataUrl.slice(0, 600));
 
             showModal({
                 title: t('player.share.title'),
