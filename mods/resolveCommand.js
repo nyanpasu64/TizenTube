@@ -205,6 +205,14 @@ window.setInterval(() => {
         log(qr);
     }
     oldQr = qr;
+
+    if (qrElem) {
+        qrElem.parentElement.parentElement.style.backgroundColor = "red";
+        qrElem.parentElement.style.backgroundColor = "orange";
+        qrElem.style.backgroundColor = "yellow";
+        qrElem.children[0].style.backgroundColor = "lime";
+        qrElem.children[0].children[0].style.backgroundColor = "cyan";
+    }
 }, 1000);
 
 function customAction(action, parameters) {
