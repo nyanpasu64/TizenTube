@@ -5,8 +5,10 @@ import { configRead } from "../config.js";
 import { onLoad } from "../utils/onLoad.js";
 import { ButtonRenderer } from "./ytUI.js";
 import { t } from 'i18next';
+import { log } from './logConsole.js'
 
 function applyPatches() {
+    log("attempting applyPatches");
     if (!window._yttv) return setTimeout(applyPatches, 250);
     if (!document.querySelector('video')) return setTimeout(applyPatches, 250);
     const methods = Object.keys(window._yttv).filter(key => {
@@ -14,13 +16,16 @@ function applyPatches() {
     });
 
     if (methods.length === 0) {
+        log('missing TRANSPORT_CONTROLS_BUTTON_TYPE_FEATURED_ACTION');
         setTimeout(applyPatches, 250);
         return;
     }
 
+    log("applyPatches");
     const origMethod = window._yttv[methods[0]];
 
     function YtlrPlayerActionsContainer() {
+        log("{ YtlrPlayerActionsContainer");
         const args = Array.prototype.slice.call(arguments);
         const isClass = /^class\s/.test(origMethod.toString());
 
@@ -32,6 +37,7 @@ function applyPatches() {
         }
 
         if (!(this instanceof YtlrPlayerActionsContainer)) {
+            log("} !(this instanceof YtlrPlayerActionsContainer)");
             if (isClass) return constructAsNew(origMethod, args);
             return origMethod.apply(this, args);
         }
@@ -66,7 +72,12 @@ function applyPatches() {
             return func.rhs.includes('TRANSPORT_CONTROLS_BUTTON_TYPE_PLAYBACK_SETTINGS');
         }).left.split('.')[1];
 
-        if (!settingActionGroup) return inst;
+        if (!settingActionGroup) {
+            log("} !settingActionGroup")
+            return inst;
+        }
+
+        log("injecting custom buttons");
 
         const origSettingActionGroup = inst[settingActionGroup];
         if (configRead('enableMPButton')) {
@@ -174,14 +185,17 @@ function applyPatches() {
 
         }
 
+        log("} YtlrPlayerActionsContainer");
         return inst;
     }
 
     if (configRead('enablePatchingVideoPlayer')) {
+        log("installing YtlrPlayerActionsContainer");
         YtlrPlayerActionsContainer.prototype = origMethod.prototype;
         window._yttv[methods[0]] = YtlrPlayerActionsContainer;
     }
 }
 
 
+log("document.readyState =", document.readyState);
 onLoad(applyPatches);
