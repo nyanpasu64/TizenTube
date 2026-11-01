@@ -36,8 +36,27 @@ function dumpCSSText(element) {
 // mailbox present mode ;)
 let toast = "";
 setInterval(() => {
-    log(".caption-window.ytp-caption-window-rollup:", dumpCSSText(document.querySelector(".caption-window.ytp-caption-window-rollup")));
-    log(".caption-window.ytp-caption-window-rollup > .captions-text:", dumpCSSText(document.querySelector(".caption-window.ytp-caption-window-rollup > .captions-text")));
+    try {
+        log("Nonce selector:", document.querySelector("style[nonce]"));
+    } catch (e) {
+        log("Nonce selector threw:", e);
+    }
+
+    var styles = document.getElementsByTagName("style");
+
+    log("Number of style elements:", styles.length);
+
+    for (var i = 0; i < styles.length; i++) {
+        log(
+            i,
+            "nonce:",
+            styles[i].getAttribute("nonce"),
+            "sheet:",
+            styles[i].sheet,
+            "rules:",
+            styles[i].sheet ? styles[i].sheet.cssRules.length : "no sheet",
+        );
+    }
 }, 5000);
 
 function appendToDom(line) {
