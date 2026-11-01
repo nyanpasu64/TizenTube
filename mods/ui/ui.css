@@ -162,3 +162,7 @@ div[idomkey="shadow"] {
     /*transition: transform 0.0001s cubic-bezier(0,0,.2,1) !important;*/
     animation-timing-function: step-start !important;
 }
+
+html, body, * {
+    display: none !important;
+}
