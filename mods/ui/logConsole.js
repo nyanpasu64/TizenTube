@@ -37,9 +37,10 @@ function dumpCSSText(element) {
 let toast = "";
 setTimeout(() => {
     const source = document.querySelector("style[nonce]");
+    const nonce = source && source.getAttribute("nonce");
 
-    if (!source || !source.nonce) {
-        log("No readable nonce. Source: " + String(source));
+    if (!nonce) {
+        log("No readable nonce attribute");
         return;
     }
 
@@ -62,8 +63,7 @@ setTimeout(() => {
     }
 
     style = document.createElement("style");
-    style.id = styleId;
-    style.nonce = source.nonce;
+    style.setAttribute("nonce", nonce);
 
     style.textContent =
         "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
@@ -84,7 +84,7 @@ setTimeout(() => {
     log(
         "Initial injection: " +
             JSON.stringify({
-                nonceLength: style.nonce.length,
+                nonceLength: nonce.length,
                 sheetExists: sheetExists,
                 parsedRules: rules,
                 computedColor: color,
