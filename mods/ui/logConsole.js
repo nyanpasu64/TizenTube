@@ -35,29 +35,89 @@ function dumpCSSText(element) {
 
 // mailbox present mode ;)
 let toast = "";
-setInterval(() => {
-    try {
-        log("Nonce selector:", document.querySelector("style[nonce]"));
-    } catch (e) {
-        log("Nonce selector threw:", e);
+setTimeout(() => {
+    const source = document.querySelector("style[nonce]");
+
+    if (!source || !source.nonce) {
+        log("No readable nonce. Source: " + String(source));
+        return;
     }
 
-    var styles = document.getElementsByTagName("style");
+    const probeId = "nxtube-css-probe";
+    const styleId = "nxtube-css-probe-style";
 
-    log("Number of style elements:", styles.length);
+    let probe = document.getElementById(probeId);
 
-    for (var i = 0; i < styles.length; i++) {
+    if (!probe) {
+        probe = document.createElement("div");
+        probe.id = probeId;
+        probe.textContent = "CSS INJECTION TEST";
+        document.body.appendChild(probe);
+    }
+
+    let style = document.getElementById(styleId);
+
+    if (style && style.parentNode) {
+        style.parentNode.removeChild(style);
+    }
+
+    style = document.createElement("style");
+    style.id = styleId;
+    style.nonce = source.nonce;
+
+    style.textContent =
+        "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
+
+    document.head.appendChild(style);
+
+    let rules = null;
+    let sheetExists = !!style.sheet;
+
+    try {
+        rules = sheetExists ? style.sheet.cssRules.length : null;
+    } catch (e) {
+        rules = String(e);
+    }
+
+    let color = getComputedStyle(probe).color;
+
+    log(
+        "Initial injection: " +
+            JSON.stringify({
+                nonceLength: style.nonce.length,
+                sheetExists: sheetExists,
+                parsedRules: rules,
+                computedColor: color,
+            }),
+    );
+
+    if (color !== "rgb(255, 0, 255)" && style.sheet) {
+        try {
+            style.sheet.insertRule(
+                "#" + probeId + " { color: rgb(255, 0, 255) !important; }",
+                style.sheet.cssRules.length,
+            );
+        } catch (e) {
+            log("insertRule exception: " + String(e));
+        }
+
+        let afterRules = null;
+
+        try {
+            afterRules = style.sheet.cssRules.length;
+        } catch (e) {
+            afterRules = String(e);
+        }
+
         log(
-            i,
-            "nonce:",
-            styles[i].getAttribute("nonce"),
-            "sheet:",
-            styles[i].sheet,
-            "rules:",
-            styles[i].sheet ? styles[i].sheet.cssRules.length : "no sheet",
+            "After insertRule: " +
+                JSON.stringify({
+                    parsedRules: afterRules,
+                    computedColor: getComputedStyle(probe).color,
+                }),
         );
     }
-}, 5000);
+}, 15000);
 
 function appendToDom(line) {
     if (!container) return;
