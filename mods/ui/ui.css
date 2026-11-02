@@ -155,3 +155,10 @@ div[idomkey="shadow"] {
 .ytContribIconHost::before {
     font-family: "YouTube Icons Outlined";
 }
+
+/* Speed up captions by skipping animation */
+.caption-window.ytp-caption-window-rollup,
+.caption-window.ytp-caption-window-rollup > .captions-text {
+    transition: transform 0.0001s cubic-bezier(0,0,.2,1) !important;
+    animation-timing-function: step-start !important;
+}
