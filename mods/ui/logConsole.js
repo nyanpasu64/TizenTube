@@ -63,7 +63,6 @@ setTimeout(() => {
     }
 
     style = document.createElement("style");
-    style.setAttribute("nonce", nonce);
 
     style.textContent =
         "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
