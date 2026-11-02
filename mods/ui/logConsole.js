@@ -55,33 +55,33 @@ setTimeout(() => {
         document.body.appendChild(probe);
     }
 
-    style.textContent +=
-        "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
+    // style.textContent +=
+    //     "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
 
-    let rules = null;
-    let sheetExists = !!style.sheet;
+    // let rules = null;
+    // let sheetExists = !!style.sheet;
 
-    try {
-        rules = !style.sheet
-            ? `style.sheet is ${style.sheet}`
-            : !style.sheet.cssRules
-              ? `style.sheet.cssRules is ${style.sheet.cssRules}`
-              : style.sheet.cssRules.length;
-    } catch (e) {
-        rules = String(e);
-    }
+    // try {
+    //     rules = !style.sheet
+    //         ? `style.sheet is ${style.sheet}`
+    //         : !style.sheet.cssRules
+    //           ? `style.sheet.cssRules is ${style.sheet.cssRules}`
+    //           : style.sheet.cssRules.length;
+    // } catch (e) {
+    //     rules = String(e);
+    // }
 
     let color = getComputedStyle(probe).color;
 
-    log(
-        "Initial injection: " +
-            JSON.stringify({
-                nonceLength: nonce.length,
-                sheetExists: sheetExists,
-                parsedRules: rules,
-                computedColor: color,
-            }),
-    );
+    // log(
+    //     "Initial injection: " +
+    //         JSON.stringify({
+    //             nonceLength: nonce.length,
+    //             sheetExists: sheetExists,
+    //             parsedRules: rules,
+    //             computedColor: color,
+    //         }),
+    // );
 
     if (color !== "rgb(255, 0, 255)" && style.sheet) {
         try {
