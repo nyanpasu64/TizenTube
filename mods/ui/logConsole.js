@@ -36,8 +36,8 @@ function dumpCSSText(element) {
 // mailbox present mode ;)
 let toast = "";
 setTimeout(() => {
-    const source = document.querySelector("style[nonce]");
-    const nonce = source && source.getAttribute("nonce");
+    const style = document.querySelector("style[nonce]");
+    const nonce = style && style.getAttribute("nonce");
 
     if (!nonce) {
         log("No readable nonce attribute");
@@ -45,7 +45,6 @@ setTimeout(() => {
     }
 
     const probeId = "nxtube-css-probe";
-    const styleId = "nxtube-css-probe-style";
 
     let probe = document.getElementById(probeId);
 
@@ -56,24 +55,18 @@ setTimeout(() => {
         document.body.appendChild(probe);
     }
 
-    let style = document.getElementById(styleId);
-
-    if (style && style.parentNode) {
-        style.parentNode.removeChild(style);
-    }
-
-    style = document.createElement("style");
-
-    style.textContent =
+    style.textContent +=
         "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
-
-    document.head.appendChild(style);
 
     let rules = null;
     let sheetExists = !!style.sheet;
 
     try {
-        rules = sheetExists ? style.sheet.cssRules.length : null;
+        rules = !style.sheet
+            ? `style.sheet is ${style.sheet}`
+            : !style.sheet.cssRules
+              ? `style.sheet.cssRules is ${style.sheet.cssRules}`
+              : style.sheet.cssRules.length;
     } catch (e) {
         rules = String(e);
     }
