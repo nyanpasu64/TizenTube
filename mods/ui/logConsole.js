@@ -1,4 +1,4 @@
-import { configChangeEmitter, configRead } from '../config.js';
+import { configChangeEmitter, configRead } from "../config.js";
 import { showToast } from "./ytUI.js";
 
 const MAX_LINES = 40;
@@ -7,7 +7,7 @@ let container = null;
 
 export function log(...args) {
     try {
-        const message = args.map((arg) => String(arg)).join(' ');
+        const message = args.map((arg) => String(arg)).join(" ");
         lines.push(message);
         if (lines.length > MAX_LINES) lines.shift();
 
@@ -21,17 +21,16 @@ export function log(...args) {
 // mailbox present mode ;)
 let toast = "";
 setInterval(() => {
-  if (toast !== "") {
-    showToast(toast, toast);
-  }
+    if (toast !== "") {
+        showToast(toast, toast);
+    }
 }, 5000);
-
 
 function appendToDom(line) {
     if (!container) return;
 
     // https://stackoverflow.com/questions/34975218/css-background-for-text-only-not-parent-span-div-body
-    const lineBox = document.createElement('div');
+    const lineBox = document.createElement("div");
     {
         const textSpan = document.createElement("span");
         // textSpan.classList.add("log-line");
@@ -59,24 +58,24 @@ function scrollToBottom() {
 function createConsole() {
     if (container) return;
 
-    container = document.createElement('div');
-    container.id = 'tizentube-log-console';
-    container.style.position = 'absolute';
-    container.style.top = '2%';
-    container.style.left = '2%';
-    container.style.width = '95%';
-    container.style.height = '95%';
-    container.style.zIndex = '9999';
+    container = document.createElement("div");
+    container.id = "tizentube-log-console";
+    container.style.position = "absolute";
+    container.style.top = "2%";
+    container.style.left = "2%";
+    container.style.width = "95%";
+    container.style.height = "95%";
+    container.style.zIndex = "9999";
     // container.style.background = 'rgba(0, 0, 0, 0.5)';
-    container.style.color = '#ffffff';
-    container.style.fontFamily = 'monospace';
-    container.style.fontSize = '10px';
+    container.style.color = "#ffffff";
+    container.style.fontFamily = "monospace";
+    container.style.fontSize = "10px";
     // Don't set padding (= 1em), it breaks scrollToBottom().
     // I'm sure there's a formula to fix it (exclude bottom padding and possibly
     // top from clientHeight), but I cannot be assed.
 
-    container.style.overflow = 'scroll';
-    container.style.pointerEvents = 'none';
+    container.style.overflow = "scroll";
+    container.style.pointerEvents = "none";
 
     for (const line of lines) {
         appendToDom(line);
@@ -95,14 +94,19 @@ function removeConsole() {
 // ignore stock yt logs
 console.mylog = log;
 
-configChangeEmitter.addEventListener('configChange', (e) => {
-    if (e.detail.key === 'enableLogConsole') {
+configChangeEmitter.addEventListener("configChange", (e) => {
+    if (e.detail.key === "enableLogConsole") {
         if (e.detail.value) createConsole();
         else removeConsole();
     }
 });
 
-if (configRead('enableLogConsole')) try { createConsole(); } catch (e) { showToast(e, e.message); }
+if (configRead("enableLogConsole"))
+    try {
+        createConsole();
+    } catch (e) {
+        showToast(e, e.message);
+    }
 
 // Capture and log global errors.
 function errorText(error) {
@@ -116,9 +120,7 @@ function errorText(error) {
 
 var previousOnError = window.onerror;
 window.onerror = function (message, source, line, column, error) {
-    log(
-        errorText(error) || String(message) + " at " + source + ":" + line
-    );
+    log(errorText(error) || String(message) + " at " + source + ":" + line);
     if (typeof previousOnError === "function") {
         return previousOnError.apply(this, arguments);
     }
