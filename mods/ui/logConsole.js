@@ -55,6 +55,22 @@ setTimeout(() => {
         document.body.appendChild(probe);
     }
 
+    let numRules = null;
+
+    try {
+        numRules = style.sheet.cssRules.length;
+    } catch (e) {
+        numRules = String(e);
+    }
+
+    log(
+        "Before insertRule: " +
+            JSON.stringify({
+                parsedRules: numRules,
+                computedColor: getComputedStyle(probe).color,
+            }),
+    );
+
     // style.textContent +=
     //     "#" + probeId + " { color: rgb(255, 0, 255) !important; }";
 
@@ -93,23 +109,21 @@ setTimeout(() => {
             log("insertRule exception: " + String(e));
         }
 
-        let afterRules = null;
-
         try {
-            afterRules = style.sheet.cssRules.length;
+            numRules = style.sheet.cssRules.length;
         } catch (e) {
-            afterRules = String(e);
+            numRules = String(e);
         }
 
         log(
             "After insertRule: " +
                 JSON.stringify({
-                    parsedRules: afterRules,
+                    parsedRules: numRules,
                     computedColor: getComputedStyle(probe).color,
                 }),
         );
     }
-}, 15000);
+}, 10000);
 
 function appendToDom(line) {
     if (!container) return;
