@@ -39,14 +39,23 @@ function execute_once_dom_loaded() {
 
   // Add CSS to head.
 
+  let nonce = null;
   const existingStyle = document.querySelector('style[nonce]');
   if (existingStyle) {
-    existingStyle.textContent += css;
-  } else {
-    const style = document.createElement('style');
-    style.textContent = css;
-    document.head.appendChild(style);
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/nonce
+      // Older browsers (eg. Switch) can only access via getAttribute, newer only via field.
+      nonce = existingStyle.nonce || existingStyle.getAttribute('nonce');
   }
+
+  const style = document.createElement('style');
+  style.textContent = css;
+  if (nonce) {
+      // if unsupported, https://developer.mozilla.org/en-US/docs/Glossary/Expando
+      style.nonce = nonce;
+      // hopefully safe if unsupported? if throws, must catch both independently
+      style.setAttribute('nonce', nonce);
+  }
+  document.head.appendChild(style);
 
   // Fix UI issues.
   const ui = configRead('enableFixedUI');
